@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Education - Samuel Hasibuan</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 1s ease, transform 1s ease;
+            background-color: black;
+            color: white;
+        }
+
+        body.fade-in {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        body.fade-out {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        header {
+            margin-top: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 9%;
+            background-color: transparent;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 3rem;
+            color: #b74b4b;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.5s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            font-size: 1.8rem;
+            color: white;
+            font-weight: 500;
+            transition: 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #b74b4b;
+            border-bottom: 3px solid #b74b4b;
+        }
+
+@media(max-width:995px){
+    nav{
+        position: absolute;
+        display: none;
+        top: 100%;
+        right: 0;
+        width: 40%;
+        border-left: 3px solid #b74b4b;
+        border-bottom-left-radius: 2rem;
+        padding: 1rem solid;
+        background-color: #161616;
+        border-top: 0.1rem solid rgba(0,0,0,0.1);
+    }
+
+    nav.active{
+        display: block;
+    }
+
+    nav a{
+        display: block;
+        font-size: 2rem;
+        margin: 3rem 0;
+    }
+
+    nav a:hover,
+    nav a.active{
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border-bottom: 0.5rem solid #b74b4b;
+    
+    }
+}
+
+    section {
+            padding: 10rem 9%;
+            min-height: 100vh;
+        }
+
+        .education {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            margin-top: 5rem;
+        }
+
+        .education-item {
+            display: flex;
+            flex-direction: column;
+            background-color: #161616;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 0 10px rgba(183, 75, 75, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .education-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .education-item h3 {
+            font-size: 2.4rem;
+            color: #b74b4b;
+        }
+
+        .education-item p {
+            font-size: 1.6rem;
+            color: #ccc;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav a {
+                font-size: 1.6rem;
+            }
+
+            .education-item h3 {
+                font-size: 2rem;
+            }
+
+            .education-item p {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .education {
+                gap: 2rem;
+            }
+
+            .education-item {
+                padding: 1.5rem;
+            }
+
+            .education-item h3 {
+                font-size: 1.8rem;
+            }
+
+            .education-item p {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="portofolio.html" class="logo">Samuel Hasibuan</a>
+        <nav>
+            <a href="portofolio.html" class="link">Home</a>
+            <a href="#" class="link">Service</a>
+            <a href="skilss.html" class="link">Skills</a>
+            <a href="education.html" class="active link">Education</a>
+            <a href="#" class="link">Experience</a>
+            <a href="#" class="link">Contact</a>
+        </nav>
+    </header>
+    <section class="education">
+        <div class="education-item">
+            <h3>Bachelor of Computer Science</h3>
+            <p>XYZ University, 2017 - 2021</p>
+        </div>
+        <div class="education-item">
+            <h3>High School Diploma</h3>
+            <p>ABC High School, 2014 - 2017</p>
+        </div>
+        <div class="education-item">
+            <h3>Web Development Certification</h3>
+            <p>Online Course, 2022</p>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('fade-in');
+        });
+
+        const links = document.querySelectorAll('.link');
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                if (href && href !== "#") {
+                    document.body.classList.remove('fade-in');
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 1000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
