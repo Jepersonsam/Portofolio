@@ -1,11 +1,701 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Portofolio Samuel Hasibuan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary-color: #b74b4b;
+            --secondary-color: #2d2d2d;
+            --accent-color: #e2a600;
+            --dark-bg: #0a0a0a;
+            --card-bg: #161616;
+            --text-color: #ffffff;
+            --transition-speed: 0.5s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            width: 100%;
+            overflow-x: hidden;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        body.fade-in {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* === HEADER === */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 9%;
+            background-color: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        header.sticky {
+            padding: 1rem 9%;
+            background-color: rgba(10, 10, 10, 0.95);
+        }
+
+        header .logo {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            font-weight: 800;
+            letter-spacing: 1px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        header .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        header .logo:hover::after {
+            width: 100%;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav .link {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        nav .link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        nav .link:hover {
+            color: var(--accent-color);
+        }
+
+        nav .link:hover::after,
+        nav .active::after {
+            width: 100%;
+        }
+
+        nav .active {
+            color: var(--accent-color);
+        }
+
+        .menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        /* === SECTION === */
+        section {
+            min-height: 100vh;
+            padding: 7rem 9% 3rem;
+        }
+
+        /* === PROJECTS === */
+        #projects {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5rem;
+            padding-top: 8rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .project {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: all 0.5s ease;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .project.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .project-img {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.5s ease;
+        }
+
+        .project:hover .project-img img {
+            transform: scale(1.1);
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.8));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .project:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            width: 45px;
+            height: 45px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .project:hover .project-link {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .project:hover .project-link:nth-child(2) {
+            transition-delay: 0.15s;
+        }
+
+        .project-link:hover {
+            background: var(--accent-color);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .project-description {
+            font-size: 0.95rem;
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        .project-tech {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .tech-tag {
+            font-size: 0.75rem;
+            background: rgba(183, 75, 75, 0.15);
+            color: var(--primary-color);
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+        }
+
+        /* === FOOTER === */
+        footer {
+            background: var(--card-bg);
+            padding: 2.5rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--primary-color);
+            color: var(--text-color);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--accent-color);
+            transform: translateY(-5px);
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .footer-nav a {
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+
+        .footer-nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 991px) {
+            header {
+                padding: 1.5rem 4%;
+            }
+            header.sticky {
+                padding: 1rem 4%;
+            }
+            section {
+                padding: 7rem 4% 2rem;
+            }
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1.2rem 4%;
+            }
+            .menu-btn {
+                display: block;
+            }
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 1rem 4%;
+                background: rgba(10, 10, 10, 0.95);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                flex-direction: column;
+                gap: 1.5rem;
+                transform: translateY(-150%);
+                transition: all 0.5s ease;
+            }
+            nav.active {
+                transform: translateY(0);
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .projects-container {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            .footer-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .project {
+                width: 100%;
+            }
+        }
+
+        /* === ANIMATIONS === */
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        /* === SCROLLBAR === */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <a href="index.html" class="logo">Samuel Hasibuan</a>
+        <nav id="navbar">
+            <a href="portofolio.html" class="link">Home</a>
+            <a href="service.html" class="active link">Project</a>
+            <a href="skilss.html" class="link">Skills</a>
+            <a href="education.html" class="link">Education</a>
+            <a href="experience.html" class="link">Experience</a>
+            <a href="contact.html" class="link">Contact</a>
+        </nav>
+        <div class="menu-btn" id="menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
     
+    <section id="projects">
+        <h2 class="section-title">Proyek Terbaru Saya</h2>
+        
+        <div class="projects-container">
+            <div class="project">
+                <div class="project-img">
+                    <img src="img/kalkulator - Copy.png" alt="Proyek 1">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="#" class="project-link"><i class="fas fa-link"></i></a>
+                            <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Kalkulator Web</h3>
+                    <p class="project-description">This project is a web-based calculator designed to resemble a mobile calculator, built using HTML, CSS, and JavaScript.
+                        HTML structures the layout, CSS provides a modern dark-themed design with a grid layout for buttons, and JavaScript manages 
+                        the calculator's logic, including handling basic arithmetic operations, updating the display in real-time, and managing user input efficiently.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">CSS</span>
+                        <span class="tech-tag">JavaScript</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project">
+                <div class="project-img">
+                    <img src="img/restaurantreviewsystem.png" alt="Proyek 2">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="#" class="project-link"><i class="fas fa-link"></i></a>
+                            <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">KulinerReview</h3>
+                    <p class="project-description">The "KulinerReview" website is a platform designed to allow users to add and view restaurant reviews. With a simple layout dominated by green tones, the website features a top navigation menu that includes Home, Add Review, View Review, and Contact-Us. 
+                        The main feature of this website is the review submission form, which consists of several input fields such as the user's name, restaurant name, star rating (ranging from 1 to 5), and a text box for writing their experience. 
+                        Users can rate restaurants based on a scale from 1 star (Not Tasty) to 5 stars (Very Tasty). 
+                        After filling out the form, they can submit their review by clicking the "Submit Review" button or view other reviews by selecting "View Review". 
+                        With this concept, KulinerReview serves as a platform for food enthusiasts to share their dining experiences and help others discover the best places to eat.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">CSS</span>
+                        <span class="tech-tag">Bootstrap</span>
+                        <span class="tech-tag">MySQL</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project">
+                <div class="project-img">
+                    <img src="img/samtravel.png" alt="Proyek 3">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="#" class="project-link"><i class="fas fa-link"></i></a>
+                            <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">SamTravel Website</h3>
+                    <p class="project-description">The project is an online bus ticket booking website called SamTravel, built using HTML, CSS, and JavaScript. 
+                        This website provides key features such as fast and easy bus ticket booking, travel schedule checking, and information about onboard facilities. 
+                        The interface is designed to be attractive and responsive, ensuring a comfortable user experience. 
+                        Additionally, it includes navigation links to various pages such as Home, Fleet, Services, Login, and Registration.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">CSS</span>
+                        <span class="tech-tag">Bootstrap</span>
+                        <span class="tech-tag">GitHub</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project">
+                <div class="project-img">
+                    <img src="img/gambar - Copy.jpg" alt="Proyek 4">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="#" class="project-link"><i class="fas fa-link"></i></a>
+                            <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Thriftify</h3>
+                    <p class="project-description">Thriftyfy - Second-Hand Fashion Store  
+                        Thriftyfy is an e-commerce platform that offers high-quality second-hand clothing (thrifting) at affordable prices. 
+                        Built using Java and MySQL, this project includes key features such as a product catalog, inventory management system, and user authentication (login & registration). 
+                        With a user-friendly interface, Thriftyfy provides a seamless shopping experience for customers looking for sustainable fashion options.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Java</span>
+                        <span class="tech-tag">MySQL</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Project Lagu 1 -->
+            <div class="project">
+                <div class="project-img">
+                    <img src="img/rinso.png" alt="Proyek 5">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="#" class="project-link"><i class="fas fa-link"></i></a>
+                            <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Rinso Website Cloning</h3>
+                    <p class="project-description">This website is a cloned project for a course assignment, featuring a modern design with visually appealing elements. 
+                        The main page has a clean layout with a dominant main image and highlighted promotional text. The primary navigation is located at the top, including menus such as Home, Biodata, Contact Us, and Free Content, providing access to various information on the website. 
+                        The design also incorporates contrasting graphic elements, such as text with a white and green background, to emphasize key messages. Additionally, there is a comparison illustration that enhances the visual appeal. 
+                        As a cloning project, this website aims to replicate the appearance and features of the original site while serving as practice in understanding web design, layout structure, and front-end development.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">CSS</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">TailwindCSS</span>
+                        <span class="tech-tag">Bootstrap</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Project Lagu 2 -->
+            <div class="project">
+                <div class="project-img">
+                    <img src="img/laravel - Copy.png" alt="Proyek 6">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="#" class="project-link"><i class="fas fa-link"></i></a>
+                            <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">SamTravel</h3>
+                    <p class="project-description">SAMTRAVEL is a web-based bus ticket booking platform that allows users to view, search, and add bus services with details such as name, service class, and ticket prices. 
+                        This website uses Vue.js for the frontend and Laravel for the backend, with API communication handled via Axios. Key features include navigation to various pages such as services, users, bookings, payments, and routes, as well as a search system and the ability to add new buses. 
+                        For future development, features like admin authentication, online ticket booking, digital payment integration, and service filtering and sorting can be added to enhance user-friendliness.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">VueJS</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">TailwindCSS</span>
+                        <span class="tech-tag">JavaScript</span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-social">
+                <a href="https://github.com/JepersonSam" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/samuel-hasibuan" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/jeperson_sam/" class="social-link"><i class="fab fa-instagram"></i></a>
+            </div>
+            
+            <div class="footer-nav">
+                <a href="index.html">Home</a>
+                <a href="service.html">Project</a>
+                <a href="skilss.html">Skills</a>
+                <a href="education.html">Education</a>
+                <a href="experience.html">Experience</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            
+            <p class="footer-text">&copy; 2025 Samuel Hasibuan - All Rights Reserved</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Fade-in effect saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('fade-in');
+            
+            // Header sticky saat scroll
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                header.classList.toggle('sticky', window.scrollY > 100);
+            });
+            
+            // Menu toggle untuk tampilan mobile
+            const menuBtn = document.getElementById('menu-btn');
+            const navbar = document.getElementById('navbar');
+            menuBtn.addEventListener('click', () => {
+                navbar.classList.toggle('active');
+                menuBtn.classList.toggle('fa-times');
+            });
+            
+            // Animasi project cards saat di-scroll
+            const projects = document.querySelectorAll('.project');
+            
+            const showProjects = () => {
+                const triggerBottom = window.innerHeight * 0.8;
+                
+                projects.forEach(project => {
+                    const projectTop = project.getBoundingClientRect().top;
+                    
+                    if(projectTop < triggerBottom) {
+                        project.classList.add('show');
+                    }
+                });
+            }
+            
+            // Jalankan saat pertama kali load
+            showProjects();
+            
+            // Jalankan saat scroll
+            window.addEventListener('scroll', showProjects);
+            
+            // Animasi data secara berurutan
+            setTimeout(() => {
+                projects.forEach((project, index) => {
+                    setTimeout(() => {
+                        project.classList.add('show');
+                    }, index * 200);
+                });
+            }, 500);
+        });
+    </script>
 </body>
 </html>

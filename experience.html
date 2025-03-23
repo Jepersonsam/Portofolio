@@ -1,11 +1,572 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Experience - Samuel Hasibuan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary-color: #b74b4b;
+            --secondary-color: #2d2d2d;
+            --accent-color: #e2a600;
+            --dark-bg: #0a0a0a;
+            --card-bg: #161616;
+            --text-color: #ffffff;
+            --transition-speed: 0.5s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            width: 100%;
+            overflow-x: hidden;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        body.fade-in {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        body.fade-out {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        /* === HEADER === */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 9%;
+            background-color: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        header.sticky {
+            padding: 1rem 9%;
+            background-color: rgba(10, 10, 10, 0.95);
+        }
+
+        header .logo {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            font-weight: 800;
+            letter-spacing: 1px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        header .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        header .logo:hover::after {
+            width: 100%;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav .link {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        nav .link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        nav .link:hover {
+            color: var(--accent-color);
+        }
+
+        nav .link:hover::after,
+        nav .active::after {
+            width: 100%;
+        }
+
+        nav .active {
+            color: var(--accent-color);
+        }
+
+        .menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        /* === SECTION === */
+        section {
+            min-height: 100vh;
+            padding: 7rem 9% 3rem;
+        }
+
+        /* === EXPERIENCE === */
+        #experience {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5rem;
+            padding-top: 8rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+        .experience-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            width: 100%;
+        }
+
+        .experience-item {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            transition: all 0.5s ease;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .experience-item.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .experience-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .experience-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .experience-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .experience-company {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .experience-date {
+            display: inline-block;
+            font-size: 0.9rem;
+            background-color: rgba(183, 75, 75, 0.2);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+        }
+
+        .experience-description {
+            font-size: 0.95rem;
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .experience-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            font-size: 0.8rem;
+            background-color: rgba(226, 166, 0, 0.2);
+            color: var(--accent-color);
+            padding: 0.2rem 0.7rem;
+            border-radius: 15px;
+        }
+
+        /* === FOOTER === */
+        footer {
+            background: var(--card-bg);
+            padding: 2.5rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--primary-color);
+            color: var(--text-color);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--accent-color);
+            transform: translateY(-5px);
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .footer-nav a {
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+
+        .footer-nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 991px) {
+            header {
+                padding: 1.5rem 4%;
+            }
+            header.sticky {
+                padding: 1rem 4%;
+            }
+            section {
+                padding: 7rem 4% 2rem;
+            }
+            .section-title {
+                font-size: 2.5rem;
+            }
+            .experience-container {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1.2rem 4%;
+            }
+            .menu-btn {
+                display: block;
+            }
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 1rem 4%;
+                background: rgba(10, 10, 10, 0.95);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                flex-direction: column;
+                gap: 1.5rem;
+                transform: translateY(-150%);
+                transition: all 0.5s ease;
+            }
+            nav.active {
+                transform: translateY(0);
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .experience-container {
+                grid-template-columns: 1fr;
+            }
+            .footer-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .experience-item {
+                padding: 1.5rem;
+            }
+            .experience-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* === SCROLLBAR === */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <a href="index.html" class="logo">Samuel Hasibuan</a>
+        <nav id="navbar">
+            <a href="portofolio.html" class="link">Home</a>
+            <a href="service.html" class="link">Project</a>
+            <a href="skills.html" class="link">Skills</a>
+            <a href="education.html" class="link">Education</a>
+            <a href="experience.html" class="active link">Experience</a>
+            <a href="contact.html" class="link">Contact</a>
+        </nav>
+        <div class="menu-btn" id="menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
     
+    <section id="experience">
+        <h2 class="section-title">Pengalaman Kerja</h2>
+        
+        <div class="experience-container">
+            <div class="experience-item">
+                <i class="fas fa-laptop-code experience-icon"></i>
+                <h3 class="experience-title">Web Developer</h3>
+                <p class="experience-company">PT Digital Solusi Teknologi</p>
+                <span class="experience-date">Jan 2023 - Present</span>
+                <p class="experience-description">Mengembangkan dan memelihara website untuk klien perusahaan. Bertanggung jawab untuk front-end development menggunakan React.js dan implementasi responsive design.</p>
+                <div class="experience-skills">
+                    <span class="skill-tag">HTML5</span>
+                    <span class="skill-tag">CSS3</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">React.js</span>
+                    <span class="skill-tag">Bootstrap</span>
+                </div>
+            </div>
+            
+            <div class="experience-item">
+                <i class="fas fa-chalkboard-teacher experience-icon"></i>
+                <h3 class="experience-title">IT Tutor</h3>
+                <p class="experience-company">Bina Nusantara Computer Institute</p>
+                <span class="experience-date">Jul 2022 - Dec 2022</span>
+                <p class="experience-description">Mengajar kursus dasar pemrograman dan pengembangan web untuk pemula. Membuat materi pembelajaran dan membantu siswa menguasai konsep dasar coding.</p>
+                <div class="experience-skills">
+                    <span class="skill-tag">Teaching</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Web Basics</span>
+                    <span class="skill-tag">Mentoring</span>
+                </div>
+            </div>
+            
+            <div class="experience-item">
+                <i class="fas fa-database experience-icon"></i>
+                <h3 class="experience-title">Data Analyst Intern</h3>
+                <p class="experience-company">GrowthTech Solutions</p>
+                <span class="experience-date">Jan 2022 - Jun 2022</span>
+                <p class="experience-description">Melakukan analisis data untuk mendukung keputusan bisnis. Menggunakan SQL untuk query database dan membuat visualisasi data menggunakan Tableau dan Python.</p>
+                <div class="experience-skills">
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Pandas</span>
+                    <span class="skill-tag">Tableau</span>
+                    <span class="skill-tag">Data Visualization</span>
+                </div>
+            </div>
+            
+            <div class="experience-item">
+                <i class="fas fa-mobile-alt experience-icon"></i>
+                <h3 class="experience-title">UI/UX Designer</h3>
+                <p class="experience-company">Creative Digital Agency</p>
+                <span class="experience-date">Jul 2021 - Dec 2021</span>
+                <p class="experience-description">Merancang antarmuka pengguna untuk aplikasi mobile dan website. Membuat wireframe, prototype, dan melakukan user testing untuk meningkatkan pengalaman pengguna.</p>
+                <div class="experience-skills">
+                    <span class="skill-tag">Figma</span>
+                    <span class="skill-tag">Adobe XD</span>
+                    <span class="skill-tag">Wireframing</span>
+                    <span class="skill-tag">Prototyping</span>
+                    <span class="skill-tag">User Testing</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-social">
+                <a href="https://github.com/JepersonSam" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/samuel-hasibuan" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/jeperson_sam/" class="social-link"><i class="fab fa-instagram"></i></a>
+            </div>
+            
+            <div class="footer-nav">
+                <a href="index.html">Home</a>
+                <a href="service.html">Project</a>
+                <a href="skills.html">Skills</a>
+                <a href="education.html">Education</a>
+                <a href="experience.html">Experience</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            
+            <p class="footer-text">&copy; 2025 Samuel Hasibuan - All Rights Reserved</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Fade-in effect saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('fade-in');
+            
+            // Header sticky saat scroll
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                header.classList.toggle('sticky', window.scrollY > 100);
+            });
+            
+            // Menu toggle untuk tampilan mobile
+            const menuBtn = document.getElementById('menu-btn');
+            const navbar = document.getElementById('navbar');
+            menuBtn.addEventListener('click', () => {
+                navbar.classList.toggle('active');
+                menuBtn.classList.toggle('fa-times');
+            });
+            
+            // Animasi experience items saat di-scroll
+            const experienceItems = document.querySelectorAll('.experience-item');
+            
+            const showExperience = () => {
+                const triggerBottom = window.innerHeight * 0.8;
+                
+                experienceItems.forEach(item => {
+                    const itemTop = item.getBoundingClientRect().top;
+                    
+                    if(itemTop < triggerBottom) {
+                        item.classList.add('show');
+                    }
+                });
+            }
+            
+            // Jalankan saat pertama kali load
+            showExperience();
+            
+            // Jalankan saat scroll
+            window.addEventListener('scroll', showExperience);
+            
+            // Animasi data secara berurutan
+            setTimeout(() => {
+                experienceItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.classList.add('show');
+                    }, index * 200);
+                });
+            }, 500);
+            
+            // Page transition saat klik link
+            const links = document.querySelectorAll('.link');
+            links.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const href = link.getAttribute('href');
+                    if (href && href !== "#") {
+                        document.body.classList.remove('fade-in');
+                        document.body.classList.add('fade-out');
+                        setTimeout(() => {
+                            window.location.href = href;
+                        }, 1000);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,100 +1,424 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <title>Portofolio Website</title>
+    <title>Portofolio - Samuel Hasibuan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Efek transisi halaman */
-        body {
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary-color: #b74b4b;
+            --secondary-color: #2d2d2d;
+            --accent-color: #e2a600;
+            --dark-bg: #0a0a0a;
+            --card-bg: #161616;
+            --text-color: #ffffff;
+            --transition-speed: 0.5s;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            opacity: 0; /* Awalnya transparan untuk efek fade-in */
-            transform: scale(0.95); /* Awalnya sedikit lebih kecil */
+            box-sizing: border-box;
+            text-decoration: none;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            width: 100%;
+            overflow-x: hidden;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            opacity: 0;
+            transform: scale(0.95);
             transition: opacity 1s ease, transform 1s ease;
         }
 
-        /* Efek fade-in */
         body.fade-in {
             opacity: 1;
             transform: scale(1);
         }
 
-        /* Efek fade-out */
-        body.fade-out {
-            opacity: 0;
-            transform: scale(0.95);
+        /* === HEADER === */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 9%;
+            background-color: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        header.sticky {
+            padding: 1rem 9%;
+            background-color: rgba(10, 10, 10, 0.95);
+        }
+
+        header .logo {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            font-weight: 800;
+            letter-spacing: 1px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        header .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        header .logo:hover::after {
+            width: 100%;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav .link {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        nav .link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        nav .link:hover {
+            color: var(--accent-color);
+        }
+
+        nav .link:hover::after,
+        nav .active::after {
+            width: 100%;
+        }
+
+        nav .active {
+            color: var(--accent-color);
+        }
+
+        .menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        /* === PROFILE IMAGE === */
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 2rem;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 0 25px rgba(183, 75, 75, 0.5);
+            transition: transform 0.5s ease;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* === HOME SECTION === */
+        .home {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            flex-direction: column;
+            padding: 7rem 9% 3rem;
+        }
+
+        .home h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .home h1 span {
+            color: var(--primary-color);
+        }
+
+        .typing-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .typing-text span::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+        }
+
+        #typing-paragraph {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* === FOOTER === */
+        footer {
+            background: var(--card-bg);
+            padding: 2.5rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--primary-color);
+            color: var(--text-color);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--accent-color);
+            transform: translateY(-5px);
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .footer-nav a {
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+
+        .footer-nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 991px) {
+            header {
+                padding: 1.5rem 4%;
+            }
+            header.sticky {
+                padding: 1rem 4%;
+            }
+            .home {
+                padding: 7rem 4% 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1.2rem 4%;
+            }
+            .menu-btn {
+                display: block;
+            }
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 1rem 4%;
+                background: rgba(10, 10, 10, 0.95);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                flex-direction: column;
+                gap: 1.5rem;
+                transform: translateY(-150%);
+                transition: all 0.5s ease;
+            }
+            nav.active {
+                transform: translateY(0);
+            }
+            .home h1 {
+                font-size: 2.5rem;
+            }
+            .typing-text {
+                font-size: 1.3rem;
+            }
+            .footer-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .profile-image {
+                width: 150px;
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .home h1 {
+                font-size: 2rem;
+            }
+            .typing-text {
+                font-size: 1.1rem;
+            }
+            .profile-image {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        /* === SCROLLBAR === */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
         }
     </style>
 </head>
 <body>
     <header>
         <a href="index.html" class="logo">Samuel Hasibuan</a>
-        <nav>
+        <nav id="navbar">
             <a href="portofolio.html" class="active link">Home</a>
-            <a href="#" class="link">Project</a>
-            <a href="skilss.html" class="link">Skills</a>
+            <a href="service.html" class="link">Project</a>
+            <a href="skills.html" class="link">Skills</a>
             <a href="education.html" class="link">Education</a>
-            <a href="#" class="link">Experience</a>
-            <a href="#" class="link">Contact</a>
+            <a href="experience.html" class="link">Experience</a>
+            <a href="contact.html" class="link">Contact</a>
         </nav>
+        <div class="menu-btn" id="menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
     </header>
+
     <section class="home">
-        <div class="home-img">
-            <img src="download.jpg" alt="">
+        <div class="profile-image">
+            <img src="img/pict - Copy.jpg" alt="Samuel Hasibuan">
         </div>
-        <div class="home-content">
-            <h1>Hi, it's <span>Samuel</span></h1>
-            <h3 class="typing-text">I'm a <span></span></h3>
-            <p id="typing-paragraph"></p>
-            <div class="sosial-icon">
-               <a href="https://www.instagram.com/jeperson_sam/"><i class="fab fa-instagram"></i></a>
-               <a href="https://www.linkedin.com/in/samuel-marcel-jeperson-hasibuan-b25b85339?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app    "><i class="fab fa-linkedin"></i></a>
-               <a href="#"><i class="fab fa-twitter"></i></a>
-               <a href="#"><i class="fab fa-github"></i></a>
-            </div>
-            <a href="#" class="btn link">Hire me</a>
-        </div>
+        <h1>Hi, it's <span>Samuel</span></h1>
+        <h3 class="typing-text">I'm a Full Stack Development <span></span></h3>
+        <p id="typing-paragraph"></p>
     </section>
 
+    <footer>
+        <div class="footer-content">
+            <div class="footer-social">
+                <a href="https://github.com/JepersonSam" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/samuel-hasibuan" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/jeperson_sam/" class="social-link"><i class="fab fa-instagram"></i></a>
+            </div>
+            
+            <div class="footer-nav">
+                <a href="portofolio.html">Home</a>
+                <a href="service.html">Project</a>
+                <a href="skills.html">Skills</a>
+                <a href="education.html">Education</a>
+                <a href="experience.html">Experience</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            
+            <p class="footer-text">&copy; 2025 Samuel Hasibuan - All Rights Reserved</p>
+        </div>
+    </footer>
+
     <script>
-        // Efek fade-in saat halaman dimuat
+        // Fade-in effect saat halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
-            document.body.classList.add('fade-in'); // Tambahkan kelas fade-in ke body
-
-            // Mulai efek mengetik
+            document.body.classList.add('fade-in');
+            
+            // Header sticky saat scroll
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                header.classList.toggle('sticky', window.scrollY > 100);
+            });
+            
+            // Menu toggle untuk tampilan mobile
+            const menuBtn = document.getElementById('menu-btn');
+            const navbar = document.getElementById('navbar');
+            menuBtn.addEventListener('click', () => {
+                navbar.classList.toggle('active');
+                menuBtn.classList.toggle('fa-times');
+            });
+            
+            // Animasi typing
             const paragraph = document.getElementById('typing-paragraph');
-            const text = "I am a third-year Informatics Engineering student with a strong passion for web development and programming. I am proficient in creating dynamic websites using technologies such as HTML, Tailwind, Bootstrap, JavaScript, and PHP, as well as framework like Vue.js and Laravel. Additionally, i have experience with kotlin and familiar with Android application development. I am always eager to expand my knowledge and skills, and exited to contribute to innovative project that challenge and enhance my technical abilities.";
+            const text = "I am a third-year Informatics Engineering student with a strong passion for web development and programming. I am proficient in creating dynamic websites using technologies such as HTML, Tailwind, Bootstrap, JavaScript, and PHP, as well as frameworks like Vue.js and Laravel. Additionally, i have experience with kotlin and i am familiar with Android application development. I am always eager to expand my knowledge and skills, and i am excited to contribute to innovative project that challenge and my techical abilities.";
             let index = 0;
-
             function type() {
                 if (index < text.length) {
                     paragraph.textContent += text.charAt(index);
                     index++;
-                    setTimeout(type, 50); // Waktu jeda antara karakter (50ms)
+                    setTimeout(type, 40);
                 }
             }
-
             type();
-        });
-
-        // Efek fade-out saat berpindah halaman
-        const links = document.querySelectorAll('.link');
-        links.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault(); // Mencegah aksi default
-                const href = link.getAttribute('href'); // Ambil href dari link
-                if (href && href !== "#") {
-                    document.body.classList.remove('fade-in'); // Hapus efek fade-in
-                    document.body.classList.add('fade-out'); // Tambahkan efek fade-out
-                    setTimeout(() => {
-                        window.location.href = href; // Navigasi ke halaman tujuan setelah animasi selesai
-                    }, 1000); // Waktu transisi sesuai CSS (1 detik)
-                }
-            });
         });
     </script>
 </body>

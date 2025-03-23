@@ -1,11 +1,647 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Contact - Samuel Hasibuan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary-color: #b74b4b;
+            --secondary-color: #2d2d2d;
+            --accent-color: #e2a600;
+            --dark-bg: #0a0a0a;
+            --card-bg: #161616;
+            --text-color: #ffffff;
+            --transition-speed: 0.5s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            width: 100%;
+            overflow-x: hidden;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        body.fade-in {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* === HEADER === */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 9%;
+            background-color: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        header.sticky {
+            padding: 1rem 9%;
+            background-color: rgba(10, 10, 10, 0.95);
+        }
+
+        header .logo {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            font-weight: 800;
+            letter-spacing: 1px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        header .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        header .logo:hover::after {
+            width: 100%;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav .link {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        nav .link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        nav .link:hover {
+            color: var(--accent-color);
+        }
+
+        nav .link:hover::after,
+        nav .active::after {
+            width: 100%;
+        }
+
+        nav .active {
+            color: var(--accent-color);
+        }
+
+        .menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        /* === SECTION === */
+        section {
+            min-height: 100vh;
+            padding: 7rem 9% 3rem;
+        }
+
+        /* === CONTACT === */
+        #contact {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+            padding-top: 8rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .contact-info {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .contact-info.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .contact-info:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .contact-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .contact-text {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        .contact-text a {
+            color: #cccccc;
+            transition: color 0.3s ease;
+        }
+
+        .contact-text a:hover {
+            color: var(--primary-color);
+        }
+
+        .contact-form {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .contact-form.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .contact-form:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #cccccc;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(183, 75, 75, 0.3);
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: var(--primary-color);
+            color: var(--text-color);
+            padding: 0.8rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-5px);
+        }
+
+        .contact-map {
+            grid-column: 1 / -1;
+            background: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            transition: all 0.5s ease;
+            height: 400px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .contact-map.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .contact-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 0.5rem;
+        }
+
+        /* === FOOTER === */
+        footer {
+            background: var(--card-bg);
+            padding: 2.5rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--primary-color);
+            color: var(--text-color);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--accent-color);
+            transform: translateY(-5px);
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .footer-nav a {
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+
+        .footer-nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 991px) {
+            header {
+                padding: 1.5rem 4%;
+            }
+            header.sticky {
+                padding: 1rem 4%;
+            }
+            section {
+                padding: 7rem 4% 2rem;
+            }
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1.2rem 4%;
+            }
+            .menu-btn {
+                display: block;
+            }
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 1rem 4%;
+                background: rgba(10, 10, 10, 0.95);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                flex-direction: column;
+                gap: 1.5rem;
+                transform: translateY(-150%);
+                transition: all 0.5s ease;
+            }
+            nav.active {
+                transform: translateY(0);
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            .footer-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .contact-info, .contact-form {
+                width: 100%;
+            }
+        }
+
+        /* === SCROLLBAR === */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <a href="index.html" class="logo">Samuel Hasibuan</a>
+        <nav id="navbar">
+            <a href="portofolio.html" class="link">Home</a>
+            <a href="service.html" class="link">Project</a>
+            <a href="skills.html" class="link">Skills</a>
+            <a href="education.html" class="link">Education</a>
+            <a href="experience.html" class="link">Experience</a>
+            <a href="contact.html" class="active link">Contact</a>
+        </nav>
+        <div class="menu-btn" id="menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
     
+    <section id="contact">
+        <h2 class="section-title">Hubungi Saya</h2>
+        
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3 class="contact-title">Informasi Kontak</h3>
+                
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt contact-icon"></i>
+                    <div class="contact-text">
+                        Jl. Mawar No. 123, Jakarta Selatan, Indonesia
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fas fa-envelope contact-icon"></i>
+                    <div class="contact-text">
+                        <a href="mailto:samuelhasibuan@example.com">samuelhasibuan@example.com</a>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fas fa-phone contact-icon"></i>
+                    <div class="contact-text">
+                        <a href="tel:+6281234567890">+62 812 3456 7890</a>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fab fa-linkedin-in contact-icon"></i>
+                    <div class="contact-text">
+                        <a href="https://www.linkedin.com/in/samuel-hasibuan" target="_blank">linkedin.com/in/samuel-hasibuan</a>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fab fa-github contact-icon"></i>
+                    <div class="contact-text">
+                        <a href="https://github.com/JepersonSam" target="_blank">github.com/JepersonSam</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <h3 class="contact-title">Kirim Pesan</h3>
+                
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Nama</label>
+                        <input type="text" id="name" class="form-input" placeholder="Masukkan nama Anda" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" class="form-input" placeholder="Masukkan email Anda" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject" class="form-label">Subjek</label>
+                        <input type="text" id="subject" class="form-input" placeholder="Masukkan subjek pesan" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message" class="form-label">Pesan</label>
+                        <textarea id="message" class="form-input form-textarea" placeholder="Tulis pesan Anda di sini..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Kirim Pesan
+                    </button>
+                </form>
+            </div>
+            
+            <div class="contact-map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126920.39092176417!2d106.73965581640625!3d-6.229728100000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x5371bf0fdad786a2!2sJakarta%20Selatan%2C%20Kota%20Jakarta%20Selatan%2C%20Daerah%20Khusus%20Ibukota%20Jakarta!5e0!3m2!1sid!2sid!4v1616400756768!5m2!1sid!2sid" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-social">
+                <a href="https://github.com/JepersonSam" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/samuel-hasibuan" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/jeperson_sam/" class="social-link"><i class="fab fa-instagram"></i></a>
+            </div>
+            
+            <div class="footer-nav">
+                <a href="index.html">Home</a>
+                <a href="service.html">Project</a>
+                <a href="skills.html">Skills</a>
+                <a href="education.html">Education</a>
+                <a href="experience.html">Experience</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            
+            <p class="footer-text">&copy; 2025 Samuel Hasibuan - All Rights Reserved</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Fade-in effect saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('fade-in');
+            
+            // Header sticky saat scroll
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                header.classList.toggle('sticky', window.scrollY > 100);
+            });
+            
+            // Menu toggle untuk tampilan mobile
+            const menuBtn = document.getElementById('menu-btn');
+            const navbar = document.getElementById('navbar');
+            menuBtn.addEventListener('click', () => {
+                navbar.classList.toggle('active');
+                menuBtn.classList.toggle('fa-times');
+            });
+            
+            // Animasi contact items saat di-scroll
+            const contactItems = document.querySelectorAll('.contact-info, .contact-form, .contact-map');
+            
+            const showContactItems = () => {
+                const triggerBottom = window.innerHeight * 0.8;
+                
+                contactItems.forEach(item => {
+                    const itemTop = item.getBoundingClientRect().top;
+                    
+                    if(itemTop < triggerBottom) {
+                        item.classList.add('show');
+                    }
+                });
+            }
+            
+            // Jalankan saat pertama kali load
+            showContactItems();
+            
+            // Jalankan saat scroll
+            window.addEventListener('scroll', showContactItems);
+            
+            // Animasi data secara berurutan
+            setTimeout(() => {
+                contactItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.classList.add('show');
+                    }, index * 200);
+                });
+            }, 500);
+            
+            // Form submission
+            const contactForm = document.getElementById('contact-form');
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Di sini Anda bisa menambahkan kode untuk mengirim data form ke server
+                // Misalnya menggunakan fetch API atau XMLHttpRequest
+                
+                // Contoh sederhana: menampilkan alert setelah form terkirim
+                alert('Pesan Anda telah dikirim! Terima kasih telah menghubungi saya.');
+                contactForm.reset();
+            });
+        });
+    </script>
 </body>
 </html>
